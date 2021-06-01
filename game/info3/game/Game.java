@@ -60,6 +60,8 @@ public class Game {
 		// creating a cowboy, that would be a model
 		// in an Model-View-Controller pattern (MVC)
 		m_cowboy = new Cowboy();
+		m_cowboy.addRigibody(10);
+		m_cowboy.addBoxCollider(50, 50);
 		// creating a listener for all the events
 		// from the game canvas, that would be
 		// the controller in the MVC pattern
@@ -70,6 +72,7 @@ public class Game {
 		
 		m_camera = new Camera(0,0);
 		m_camera.addGameObject(m_cowboy);
+		m_camera.addGameObject(m_cowboy.collider);
 
 		System.out.println("  - creating frame...");
 		Dimension d = new Dimension(1024, 768);
@@ -139,6 +142,7 @@ public class Game {
 	void tick(long elapsed) {
 
 		m_cowboy.tick(elapsed);
+		m_cowboy.rigibody.computeMovement(elapsed);
 
 		// Update every second
 		// the text on top of the frame: tick and fps

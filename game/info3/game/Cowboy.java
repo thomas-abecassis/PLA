@@ -20,7 +20,10 @@
  */
 package info3.game;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +45,8 @@ public class Cowboy extends GameObject implements Paintable {
 	int m_width;
 	boolean retour = false;
 	float vitesseDeplacement = 300;
+	float rotation;
+	float vitesseRotation = 1;
 
 	Cowboy() throws IOException {
 		super(200, 200, 0, 1);
@@ -52,12 +57,14 @@ public class Cowboy extends GameObject implements Paintable {
 	 * Simple animation here, the cowbow
 	 */
 	public void tick(long deltaTime) {
+		rotation += (deltaTime/1000F) * vitesseRotation * 360;
 		m_imageElapsed += deltaTime;
 		if (m_imageElapsed > 200) {
 			m_imageElapsed = 0;
 			m_imageIndex = (m_imageIndex + 1) % m_images.length;
 		}
 		
+		/*
 		if (transform.getX() > m_width-50)
 			retour = true;
 		else if (transform.getX() < 0)
@@ -66,14 +73,21 @@ public class Cowboy extends GameObject implements Paintable {
 			transform.translate(vitesseDeplacement*(deltaTime/(float)1000), 0); //divise par 1000 pour avoir le deltaTime en seconde, on a facilement le deplacement en pixel/seconde de cette manière
 		else
 			transform.translate(-vitesseDeplacement*(deltaTime/(float)1000), 0);
+		*/
 	}
 
 	public void paint(Graphics g, int width, int height, int cameraPositionX, int cameraPositionY) {
 		m_width = width;
 		BufferedImage img = m_images[m_imageIndex];
-		int scale = 2;
-		g.drawImage(img, (int)(transform.getX() - cameraPositionX), (int)(transform.getY() - cameraPositionY), scale * img.getWidth(), scale * img.getHeight(),
-				null);
+		int scale = 50;
+		//g.drawImage(img, (int)(transform.getX() - cameraPositionX), (int)(transform.getY() - cameraPositionY), scale * img.getWidth(), scale * img.getHeight(),
+		//		null);
+		Graphics2D g2 = (Graphics2D)g;
+		AffineTransform old = g2.getTransform();
+		g2.rotate(Math.toRadians(rotation),transform.getX() - cameraPositionX + scale/2, transform.getY() - cameraPositionY + scale/2);
+		g2.setColor(Color.red);
+		g2.fillRect((int)(transform.getX() - cameraPositionX), (int)(transform.getY() - cameraPositionY), scale, scale);
+		g2.setTransform(old);
 	}
 
 	public static BufferedImage[] loadSprite(String filename, int nrows, int ncols) throws IOException {

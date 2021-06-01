@@ -7,6 +7,7 @@ public class Rigibody {
 	private Transform transform;
 	private float xVelocity, yVelocity;
 	private float mass;
+	private Vector2 force;
 	
 	public Rigibody(Transform transform, float mass) {
 		isKinematic = false; 
@@ -14,6 +15,7 @@ public class Rigibody {
 		this.transform = transform;
 		xVelocity = 0; yVelocity = 0;
 		this.mass = mass;
+		this.force = new Vector2(0, 9.81F);
 	}
 	
 	public void setKinematic(boolean b) {
@@ -26,6 +28,16 @@ public class Rigibody {
 	
 	public void setMass(float mass) {
 		this.mass = mass;
+	}
+	
+	public void computeMovement(float deltaTime) {
+		if(!isKinematic) {
+			deltaTime = deltaTime/1000; //ms to second
+			Vector2 acceleration = new Vector2(force.x/mass, force.y/mass);
+			xVelocity +=acceleration.x * deltaTime;
+			yVelocity += acceleration.y * deltaTime;
+			transform.translate(xVelocity, yVelocity);
+		}
 	}
 
 }

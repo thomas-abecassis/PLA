@@ -17,8 +17,8 @@ public class GameObject {
 		this.rigibody = new Rigibody(transform, mass);
 	} 
 	
-	public void addBoxCollider(float size) {
-		this.collider = new BoxCollider(transform, size);
+	public void addBoxCollider(float sizeX, float sizeY) {
+		this.collider = new BoxCollider(transform, sizeX,sizeY);
 	}
 	
 }
