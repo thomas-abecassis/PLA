@@ -31,12 +31,12 @@ import javax.imageio.ImageIO;
  * A simple class that holds the images of a sprite for an animated cowbow.
  *
  */
-public class Cowboy {
+public class Cowboy implements Paintable{
   BufferedImage[] m_images;
   int m_imageIndex;
   long m_imageElapsed;
   long m_moveElapsed;
-  int m_x=10, m_y=10;
+  int m_x=200, m_y=200;
   int m_width;
   
   Cowboy() throws IOException {
@@ -59,11 +59,11 @@ public class Cowboy {
     }
   }
   
-  public void paint(Graphics g, int width, int height) {
+  public void paint(Graphics g, int width, int height, int cameraPositionX, int cameraPositionY) {
     m_width = width;
     BufferedImage img = m_images[m_imageIndex];
     int scale = 2;
-    g.drawImage(img, m_x, m_y, scale * img.getWidth(), scale * img.getHeight(), null);
+    g.drawImage(img, m_x - cameraPositionX, m_y-cameraPositionY , scale * img.getWidth(), scale * img.getHeight(), null);
   }
 
   

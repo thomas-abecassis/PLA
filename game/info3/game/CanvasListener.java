@@ -89,6 +89,7 @@ public class CanvasListener implements GameCanvasListener {
 
   @Override
   public void keyPressed(KeyEvent e) {
+	m_game.m_camera.startShake();
     System.out.println("Key pressed: "+e.getKeyChar()+" code="+e.getKeyCode());
   }
 

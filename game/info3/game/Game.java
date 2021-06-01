@@ -53,6 +53,7 @@ public class Game {
 	CanvasListener m_listener;
 	Cowboy m_cowboy;
 	Sound m_music;
+	Camera m_camera;
 
 	Game(float volume) throws Exception {
 		this.volume = 0;
@@ -66,6 +67,9 @@ public class Game {
 		// creating the game canvas to render the game,
 		// that would be a part of the view in the MVC pattern
 		m_canvas = new GameCanvas(m_listener);
+		
+		m_camera = new Camera(0,0);
+		m_camera.addGameObject(m_cowboy);
 
 		System.out.println("  - creating frame...");
 		Dimension d = new Dimension(1024, 768);
@@ -158,16 +162,13 @@ public class Game {
 	 */
 	void paint(Graphics g) {
 
+		m_camera.shake();
+		
 		// get the size of the canvas
 		int width = m_canvas.getWidth();
 		int height = m_canvas.getHeight();
-
-		// erase background
-		g.setColor(Color.gray);
-		g.fillRect(0, 0, width, height);
-
-		// paint
-		m_cowboy.paint(g, width, height);
+		
+		m_camera.paint(g, width, height); 
 	}
 
 }
