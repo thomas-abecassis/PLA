@@ -27,64 +27,73 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import info3.gameObjects.GameObject;
+import info3.gameObjects.Transform;
+
 /**
  * A simple class that holds the images of a sprite for an animated cowbow.
  *
  */
-public class Cowboy implements Paintable{
-  BufferedImage[] m_images;
-  int m_imageIndex;
-  long m_imageElapsed;
-  long m_moveElapsed;
-  int m_x=200, m_y=200;
-  int m_width;
-  
-  Cowboy() throws IOException {
-    m_images = loadSprite("resources/winchester-4x6.png", 4, 6);
-  }
-  
-  /*
-   * Simple animation here, the cowbow 
-   */
-  public void tick(long elapsed) {
-    m_imageElapsed += elapsed;
-    if (m_imageElapsed > 200) {
-      m_imageElapsed = 0;
-      m_imageIndex = (m_imageIndex + 1) % m_images.length;
-    }
-    m_moveElapsed += elapsed;
-    if (m_moveElapsed>24 & m_width!=0) {
-      m_moveElapsed=0;
-      m_x = (m_x +2)%m_width;
-    }
-  }
-  
-  public void paint(Graphics g, int width, int height, int cameraPositionX, int cameraPositionY) {
-    m_width = width;
-    BufferedImage img = m_images[m_imageIndex];
-    int scale = 2;
-    g.drawImage(img, m_x - cameraPositionX, m_y-cameraPositionY , scale * img.getWidth(), scale * img.getHeight(), null);
-  }
+public class Cowboy extends GameObject implements Paintable {
+	BufferedImage[] m_images;
+	int m_imageIndex;
+	long m_imageElapsed;
+	long m_moveElapsed;
+	int m_width;
+	boolean retour = false;
+	float vitesseDeplacement = 300;
 
-  
-  public static BufferedImage[] loadSprite(String filename, int nrows, int ncols) throws IOException {
-    File imageFile = new File(filename);
-    if (imageFile.exists()) {
-      BufferedImage image = ImageIO.read(imageFile);
-      int width = image.getWidth(null) / ncols;
-      int height = image.getHeight(null) / nrows;
+	Cowboy() throws IOException {
+		super(200, 200, 0, 1);
+		m_images = loadSprite("resources/winchester-4x6.png", 4, 6);
+	}
 
-      BufferedImage[] images = new BufferedImage[nrows * ncols];
-      for (int i = 0; i < nrows; i++) {
-        for (int j = 0; j < ncols; j++) {
-          int x = j * width;
-          int y = i * height;
-          images[(i * ncols) + j] = image.getSubimage(x, y, width, height);
-        }
-      }
-      return images;
-    }
-    return null;
-  }
+	/*
+	 * Simple animation here, the cowbow
+	 */
+	public void tick(long deltaTime) {
+		m_imageElapsed += deltaTime;
+		if (m_imageElapsed > 200) {
+			m_imageElapsed = 0;
+			m_imageIndex = (m_imageIndex + 1) % m_images.length;
+		}
+		
+		if (transform.getX() > m_width-50)
+			retour = true;
+		else if (transform.getX() < 0)
+			retour = false;
+		if (!retour)
+			transform.translate(vitesseDeplacement*(deltaTime/(float)1000), 0); //divise par 1000 pour avoir le deltaTime en seconde, on a facilement le deplacement en pixel/seconde de cette manière
+		else
+			transform.translate(-vitesseDeplacement*(deltaTime/(float)1000), 0);
+	}
+
+	public void paint(Graphics g, int width, int height, int cameraPositionX, int cameraPositionY) {
+		m_width = width;
+		BufferedImage img = m_images[m_imageIndex];
+		int scale = 2;
+		g.drawImage(img, (int)(transform.getX() - cameraPositionX), (int)(transform.getY() - cameraPositionY), scale * img.getWidth(), scale * img.getHeight(),
+				null);
+	}
+
+	public static BufferedImage[] loadSprite(String filename, int nrows, int ncols) throws IOException {
+		File imageFile = new File(filename);
+		if (imageFile.exists()) {
+			BufferedImage image = ImageIO.read(imageFile);
+			int width = image.getWidth(null) / ncols;
+			int height = image.getHeight(null) / nrows;
+
+			BufferedImage[] images = new BufferedImage[nrows * ncols];
+			for (int i = 0; i < nrows; i++) {
+				for (int j = 0; j < ncols; j++) {
+					int x = j * width;
+					int y = i * height;
+					images[(i * ncols) + j] = image.getSubimage(x, y, width, height);
+				}
+			}
+			return images;
+		}
+		return null;
+	}
 
 }

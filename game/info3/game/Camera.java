@@ -41,6 +41,7 @@ public class Camera {
 	public void shake() {
 		//System.out.println("CAMERA POSITION : " + x + ", " + y);
 		if(shake) {
+			System.out.println("CAMERA POSITION : " + x + ", " + y);
 			double randomX = Math.random();
 			double randomY = Math.random();
 			this.x+=(randomX*shakePower-shakePower/2)*2;
