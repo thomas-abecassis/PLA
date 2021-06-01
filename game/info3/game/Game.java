@@ -35,11 +35,12 @@ import info3.game.sound.RandomFileInputStream;
 public class Game {
 
 	static Game game;
+	private float volume;
 
 	public static void main(String args[]) throws Exception {
 		try {
 			System.out.println("Game starting...");
-			game = new Game();
+			game = new Game(0);
 			System.out.println("Game started.");
 		} catch (Throwable th) {
 			th.printStackTrace(System.err);
@@ -53,7 +54,8 @@ public class Game {
 	Cowboy m_cowboy;
 	Sound m_music;
 
-	Game() throws Exception {
+	Game(float volume) throws Exception {
+		this.volume = 0;
 		// creating a cowboy, that would be a model
 		// in an Model-View-Controller pattern (MVC)
 		m_cowboy = new Cowboy();
@@ -114,7 +116,7 @@ public class Game {
 		try { 
 			RandomAccessFile file = new RandomAccessFile(filename,"r");
 			RandomFileInputStream fis = new RandomFileInputStream(file);
-			m_canvas.playMusic(fis, 0, 1.0F);
+			m_canvas.playMusic(fis, 0, volume);
 		} catch (Throwable th) {
 			th.printStackTrace(System.err);
 			System.exit(-1);
