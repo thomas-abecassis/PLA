@@ -1,3 +1,3 @@
 # PLA
 
-test
+Let's make a great game !
