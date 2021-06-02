@@ -13,8 +13,8 @@ public class GameObject {
 		this.transform= new Transform(x,y,angle, taille);
 	}
 	
-	public void addRigibody(float mass) {
-		this.rigibody = new Rigibody(transform, mass);
+	public void addRigibody(float mass, float frictionForce) {
+		this.rigibody = new Rigibody(transform, mass, collider, frictionForce);
 	} 
 	
 	public void addBoxCollider(float sizeX, float sizeY) {

@@ -3,13 +3,13 @@ package info3.gameObjects;
 public class Transform {
 
 	private float x, y; 
-	private float angle;
+	private float rotation;
 	private float taille;
 	
-	public Transform(float x, float y, float angle, float taille) {
+	public Transform(float x, float y, float rotation, float taille) {
 		this.x = x;
 		this.y = y;
-		this.angle = angle;
+		this.rotation = rotation;
 		this.taille = taille;
 	}
 
@@ -19,6 +19,24 @@ public class Transform {
 	
 	public float getY() {
 		return y;
+	}
+	
+	public float getTaille() {
+		return taille;
+	}
+	
+	public float getRotation() {
+		return rotation;
+	}
+
+	//angle en radians
+	public void addRotation(float angle) {
+		rotation+=angle;
+	}
+	
+	//angle en radians
+	public void setRotation(float angle) {
+		rotation = angle;
 	}
 	
 	public void translate(float x, float y) {

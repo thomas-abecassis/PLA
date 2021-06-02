@@ -10,20 +10,14 @@ public class Camera {
 	private float oldX, oldY;
 	private boolean shake =false;
 	private int nbShake;
-	ArrayList<Paintable> gameObjects;
 	float shakePower = 20;
 	
 	
 	Camera(int x, int y){
 		this.x = x;
 		this.y = y;
-		gameObjects = new ArrayList<Paintable>();
 	}
-	
-	public void addGameObject(Paintable p) {
-		gameObjects.add(p);
-	}
-	
+
 	public void startShake() {
 		shake = true;
 		oldX=x;
@@ -52,15 +46,8 @@ public class Camera {
 		}
 	}
 	
-	public void paint(Graphics g,  int width, int height) {
-
-
-		// erase background
-		g.setColor(Color.gray);
-		g.fillRect(0, 0, width, height);
-		for(Paintable gameObject : gameObjects) {
-			gameObject.paint(g, width, height, (int)x, (int)y);
-		}
+	public void paint(Graphics g,  int width, int height, Paintable paintable) {
+		paintable.paint(g, width, height, (int)x, (int)y);
 	}
 
 }

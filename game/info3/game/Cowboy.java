@@ -42,52 +42,81 @@ public class Cowboy extends GameObject implements Paintable {
 	int m_imageIndex;
 	long m_imageElapsed;
 	long m_moveElapsed;
+	long bulletElapsed;
 	int m_width;
 	boolean retour = false;
-	float vitesseDeplacement = 300;
-	float rotation;
+	float vitesseDeplacement = 2 * (float)Math.PI;
 	float vitesseRotation = 1;
 
-	Cowboy() throws IOException {
-		super(200, 200, 0, 1);
-		m_images = loadSprite("resources/winchester-4x6.png", 4, 6);
+	Cowboy(int x, int y) throws IOException {
+		super(x, y, 0, 48);
+		m_images = loadSprite("resources/joueur.png", 1, 1);
 	}
 
 	/*
 	 * Simple animation here, the cowbow
 	 */
-	public void tick(long deltaTime) {
-		rotation += (deltaTime/1000F) * vitesseRotation * 360;
+	public void tick(long deltaTime, CanvasListener canvasListener) {
+		rigibody.computeMovement(deltaTime);
+		
 		m_imageElapsed += deltaTime;
+		bulletElapsed +=deltaTime;
 		if (m_imageElapsed > 200) {
 			m_imageElapsed = 0;
 			m_imageIndex = (m_imageIndex + 1) % m_images.length;
 		}
 		
-		/*
-		if (transform.getX() > m_width-50)
-			retour = true;
-		else if (transform.getX() < 0)
-			retour = false;
-		if (!retour)
-			transform.translate(vitesseDeplacement*(deltaTime/(float)1000), 0); //divise par 1000 pour avoir le deltaTime en seconde, on a facilement le deplacement en pixel/seconde de cette manière
-		else
-			transform.translate(-vitesseDeplacement*(deltaTime/(float)1000), 0);
-		*/
+		move(canvasListener);
+		
+		if(canvasListener.key32 && bulletElapsed >50) {
+			bulletElapsed = 0;
+			createBullet();
+		}
+		
+	}
+	
+	private void createBullet() {
+		Bullet bullet = new Bullet((int)this.transform.getX(), (int)this.transform.getY(), this.transform.getRotation());
+		PaintManager.instance.add(bullet);
+		TickManager.instance.add(bullet);
+	}
+	
+	public void move(CanvasListener canvasListener) {
+		if(canvasListener.key37) {
+			rigibody.setVelocityX(-10);
+			transform.setRotation((float)Math.PI *0.5F);
+		}
+		if(canvasListener.key38) {
+			rigibody.setVelocityY(-10);
+			transform.setRotation((float)Math.PI );
+		}
+		if(canvasListener.key39) {
+			rigibody.setVelocityX(10);
+			transform.setRotation((float)Math.PI *1.5F);
+		}
+		if(canvasListener.key40) {
+			rigibody.setVelocityY(10);
+			transform.setRotation(0);
+		}
 	}
 
 	public void paint(Graphics g, int width, int height, int cameraPositionX, int cameraPositionY) {
 		m_width = width;
 		BufferedImage img = m_images[m_imageIndex];
-		int scale = 50;
+		int scale = 48;
 		//g.drawImage(img, (int)(transform.getX() - cameraPositionX), (int)(transform.getY() - cameraPositionY), scale * img.getWidth(), scale * img.getHeight(),
 		//		null);
-		Graphics2D g2 = (Graphics2D)g;
-		AffineTransform old = g2.getTransform();
-		g2.rotate(Math.toRadians(rotation),transform.getX() - cameraPositionX + scale/2, transform.getY() - cameraPositionY + scale/2);
-		g2.setColor(Color.red);
-		g2.fillRect((int)(transform.getX() - cameraPositionX), (int)(transform.getY() - cameraPositionY), scale, scale);
-		g2.setTransform(old);
+		
+		if(transform.getRotation()!=0) {
+			Graphics2D g2 = (Graphics2D)g;
+			AffineTransform old = g2.getTransform();
+			g2.rotate(transform.getRotation(),transform.getX() - cameraPositionX + scale/2, transform.getY() - cameraPositionY + scale/2);
+			g2.drawImage(img, (int)(transform.getX() - cameraPositionX), (int)(transform.getY()-cameraPositionY) ,img.getWidth(), img.getHeight(), null);
+			g2.setTransform(old);
+		}
+		else {
+		    g.drawImage(img, (int)(transform.getX() - cameraPositionX), (int)(transform.getY()-cameraPositionY) ,img.getWidth(), img.getHeight(), null);
+		}
 	}
 
 	public static BufferedImage[] loadSprite(String filename, int nrows, int ncols) throws IOException {

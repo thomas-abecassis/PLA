@@ -28,6 +28,11 @@ import info3.game.graphics.GameCanvasListener;
 
 public class CanvasListener implements GameCanvasListener {
   Game m_game;
+  public boolean key32 = false;
+  public boolean key37 = false;
+  public boolean key38 = false;
+  public boolean key39 = false;
+  public boolean key40 = false;
 
   CanvasListener(Game game) {
     m_game = game;
@@ -89,12 +94,33 @@ public class CanvasListener implements GameCanvasListener {
 
   @Override
   public void keyPressed(KeyEvent e) {
-	m_game.m_camera.startShake();
+	  if(e.getKeyCode()==32)
+		  key32 = true;
+	  if(e.getKeyCode()==37)
+		  key37 = true;
+	  if(e.getKeyCode()==38)
+		  key38 = true;
+	  else if(e.getKeyCode()==39)
+		  key39 = true;
+	  else if(e.getKeyCode()==40)
+		  key40 = true;
+	  else if(e.getKeyCode()==65)
+		  m_game.m_camera.startShake();
     System.out.println("Key pressed: "+e.getKeyChar()+" code="+e.getKeyCode());
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
+	  if(e.getKeyCode()==32)
+		  key32 = false;
+	  if(e.getKeyCode()==37)
+		  key37 = false;
+	  if(e.getKeyCode()==38)
+		  key38 = false;
+	  else if(e.getKeyCode()==39)
+		  key39 = false;
+	  else if(e.getKeyCode()==40)
+		  key40 = false;
     System.out.println("Key released: "+e.getKeyChar()+" code="+e.getKeyCode());
   }
 
