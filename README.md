@@ -25,3 +25,9 @@ Let's make a great game !
 - Commentaire pour les boucles complexes
 
 - Tout private + getters et setters
+
+- constant : private static final
+
+## Normes git
+
+Branches : prenom.(code||debug).fonctionnalité
