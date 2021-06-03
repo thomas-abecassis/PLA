@@ -32,16 +32,20 @@ import javax.swing.JLabel;
 import info3.game.graphics.GameCanvas;
 import info3.game.sound.RandomFileInputStream;
 import info3.gameObjects.BoxCollider;
+import info3.managers.PaintManager;
+import info3.managers.TickManager;
 
 public class Game {
 
-	static Game game;
+	public static Game game;
 	private float volume;
 
 	public static void main(String args[]) throws Exception {
 		try {
 			System.out.println("Game starting...");
-			game = new Game(0);
+			Level level1 = new Level("level1");
+			level1.readLevel();
+			level1.loadLevel();
 			System.out.println("Game started.");
 		} catch (Throwable th) {
 			th.printStackTrace(System.err);
@@ -58,11 +62,6 @@ public class Game {
 
 	Game(float volume) throws Exception {
 		this.volume = 0;
-		// creating a cowboy, that would be a model
-		// in an Model-View-Controller pattern (MVC)
-		m_cowboy = new Cowboy(200, 200);
-		m_cowboy.addBoxCollider(50, 50);
-		m_cowboy.addRigibody(10,1);
 
 		// creating a listener for all the events
 		// from the game canvas, that would be
@@ -76,9 +75,6 @@ public class Game {
 		
 		PaintManager p = new PaintManager(m_camera, m_canvas);
 		new TickManager();
-		
-		p.add(m_cowboy);
-		p.add(m_cowboy.collider);
 
 		System.out.println("  - creating frame...");
 		Dimension d = new Dimension(1024, 768);
@@ -147,7 +143,6 @@ public class Game {
 	 */
 	void tick(long elapsed) {
 
-		m_cowboy.tick(elapsed , m_listener);
 		TickManager.instance.tick(elapsed);
 		// Update every second
 		// the text on top of the frame: tick and fps

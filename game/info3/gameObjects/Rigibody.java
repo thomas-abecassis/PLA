@@ -2,7 +2,7 @@ package info3.gameObjects;
 
 public class Rigibody {
 	
-	private boolean isKinematic; //Si le rigibody est affecté par la physique (false c'est un golem qui ne bouge pas)
+	private boolean isKinematic; //Si le rigibody est affectï¿½ par la physique (false c'est un golem qui ne bouge pas)
 	private boolean freezeRoation;
 	private Transform transform;
 	private float xVelocity, yVelocity;
@@ -56,18 +56,18 @@ public class Rigibody {
 			xVelocity = 0;
 		else {
 			if(xVelocity>0.2)
-				xVelocity -= deltaTime/1000 * 20 * frictionForce;
+				xVelocity -= deltaTime/1000 * 400 * frictionForce;
 			else if(xVelocity <0.2)
-				xVelocity += deltaTime/1000 * 20 * frictionForce;
+				xVelocity += deltaTime/1000 * 400 * frictionForce;
 		}
 		
 		if(Math.abs(yVelocity) <= 0.2)
 			yVelocity = 0;
 		else {
 			if(yVelocity>0.2)
-				yVelocity -= deltaTime/1000 * 20 * frictionForce;
+				yVelocity -= deltaTime/1000 * 400 * frictionForce;
 			else if(yVelocity<0.2)
-				yVelocity += deltaTime/1000 * 20 * frictionForce;
+				yVelocity += deltaTime/1000 * 400 * frictionForce;
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class Rigibody {
 			Vector2 acceleration = new Vector2(force.x/mass, force.y/mass);
 			xVelocity +=acceleration.x * deltaTime;
 			yVelocity += acceleration.y * deltaTime;
-			transform.translate(xVelocity, yVelocity);
+			transform.translate(xVelocity * deltaTime, yVelocity * deltaTime);
 			
 			float angularAcceleration = torque/collider.momentOfInertia(mass);
 			angularVelocity+= angularAcceleration * deltaTime;

@@ -1,13 +1,18 @@
 package info3.gameObjects;
 
-public class GameObject {
+import java.awt.Graphics;
+
+import info3.game.Paintable;
+import info3.game.Tickable;
+
+public class GameObject implements Tickable, Paintable, Sauvable {
 	
 	//classe de base pour tout les objets de notre scene
-	//La modélisation de cette partie est inspirée de celle de Unity (en simplifiée)
+	//La modï¿½lisation de cette partie est inspirï¿½e de celle de Unity (en simplifiï¿½e)
 	
-	public Transform transform; 	//Gère la position, la rotation et la taille de l'objet
-	public Rigibody rigibody; 		//optionnnel : intègre la physique à notre objet
-	public Collider collider; 		//optionnel : met des collision à notre objet 
+	public Transform transform; 	//Gï¿½re la position, la rotation et la taille de l'objet
+	public Rigibody rigibody; 		//optionnnel : intï¿½gre la physique ï¿½ notre objet
+	public Collider collider; 		//optionnel : met des collision ï¿½ notre objet 
 
 	public GameObject(int x, int y, float angle, float taille){
 		this.transform= new Transform(x,y,angle, taille);
@@ -19,6 +24,23 @@ public class GameObject {
 	
 	public void addBoxCollider(float sizeX, float sizeY) {
 		this.collider = new BoxCollider(transform, sizeX,sizeY);
+	}
+
+	@Override
+	public void paint(Graphics g, int width, int height, int cameraPositionX, int cameraPositionY) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tick(long elapsed) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String sauvegardeString() {
+		return "G";
 	}
 	
 }
