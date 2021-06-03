@@ -32,9 +32,9 @@ public class TickManager {
 		tickables.remove(tickable);
 	}
 	
-	public void tick(long elapsed) {
-		for (Tickable tickable : tickables) {
-			tickable.tick(elapsed);
+	public synchronized void tick(long elapsed) {
+		for(int i=0; i<tickables.size(); i++) {
+			tickables.get(i).tick(elapsed);
 		}
 	}
 	

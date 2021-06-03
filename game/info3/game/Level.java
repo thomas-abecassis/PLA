@@ -27,19 +27,21 @@ public class Level {
 	}
 
 	public void readLevel() {
-		String levelString = "";
+		String[] levelStrings = new String[0];
 		try {
-			levelString = new String(Files.readAllBytes(Paths.get("ressources/niveaux/" + nom + ".txt")));
+			String levelString = new String(Files.readAllBytes(Paths.get("resources/niveaux/" + nom + ".csv")));
+			levelStrings = levelString.split(";");
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		for (int i = 0; i < levelString.length(); i++) {
-			if (levelString.charAt(i) == 'C') {
+		for (int i = 0; i < levelStrings.length; i++) {
+			if (levelStrings[i].equals("C")) {
 				Cowboy cowboy;
 				try {
-					cowboy = readCowboy(levelString, i);
+					cowboy = readCowboy(levelStrings, i);
 					gameObjects.add(cowboy);
 					i += 2;
 				} catch (IOException e) {
@@ -58,16 +60,16 @@ public class Level {
 			strings.add(gameObject.sauvegardeString());
 		}
 		try {
-			Files.write(Paths.get("ressources/niveaux/" + nom + ".txt"), strings, utf8);
+			Files.write(Paths.get("../../../ressources/niveaux/" + nom + ".csv"), strings, utf8);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private Cowboy readCowboy(String cowboyString, int index) throws IOException{
-		int x = cowboyString.charAt(index + 1);
-		int y = cowboyString.charAt(index + 2);
+	private Cowboy readCowboy(String[] cowboyString, int index) throws IOException{
+		int x = Integer.parseInt(cowboyString[index + 1]);
+		int y = Integer.parseInt(cowboyString[index + 2]);
 		return new Cowboy(x, y);
 	}
 
