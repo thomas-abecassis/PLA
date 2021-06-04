@@ -124,7 +124,7 @@ public class Cowboy extends GameObject implements Paintable, Tickable {
 	}
 	
 	public String sauvegardeString() {
-		return "C"+transform.getX()+transform.getY();
+		return "C;"+(int)transform.getX()+";"+(int)transform.getY()+";";
 	}
 
 	public static BufferedImage[] loadSprite(String filename, int nrows, int ncols) throws IOException {

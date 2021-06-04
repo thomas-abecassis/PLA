@@ -55,12 +55,14 @@ public class Level {
 
 	public void writeLevel() {
 		Charset utf8 = StandardCharsets.UTF_8;
+		String tempString = "";
 		ArrayList<String> strings = new ArrayList<String>();
 		for (GameObject gameObject : gameObjects) {
-			strings.add(gameObject.sauvegardeString());
+			tempString = tempString + gameObject.sauvegardeString();
 		}
+		strings.add(tempString);
 		try {
-			Files.write(Paths.get("../../../ressources/niveaux/" + nom + ".csv"), strings, utf8);
+			Files.write(Paths.get("resources/niveaux/" + nom + ".csv"), strings, utf8);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

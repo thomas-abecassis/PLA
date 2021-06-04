@@ -36,16 +36,27 @@ import info3.managers.PaintManager;
 import info3.managers.TickManager;
 
 public class Game {
+	
+	private final static boolean EDITEUR = true;
 
 	public static Game game;
 	private float volume;
+	
 
 	public static void main(String args[]) throws Exception {
 		try {
 			System.out.println("Game starting...");
+			if(!EDITEUR) {
 			Level level1 = new Level("level1");
 			level1.readLevel();
 			level1.loadLevel();
+			}
+			else {
+				new Game(0);
+				Editeur editeur = new Editeur();
+				editeur.createLevel("level1");
+				TickManager.instance.add(editeur);
+			}
 			System.out.println("Game started.");
 		} catch (Throwable th) {
 			th.printStackTrace(System.err);
@@ -61,6 +72,8 @@ public class Game {
 	Camera m_camera;
 
 	Game(float volume) throws Exception {
+		Game.game = this;
+		
 		this.volume = 0;
 
 		// creating a listener for all the events
