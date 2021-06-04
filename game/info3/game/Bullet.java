@@ -7,7 +7,7 @@ import info3.gameObjects.GameObject;
 
 public class Bullet extends GameObject implements Paintable, Tickable{
 	
-	private float vitesse = 13;
+	private float vitesse = 300;
 
 	public Bullet(int x, int y, float rotation) {
 		super(x, y, rotation, 1);

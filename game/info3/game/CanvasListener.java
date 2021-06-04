@@ -28,11 +28,15 @@ import info3.game.graphics.GameCanvasListener;
 
 public class CanvasListener implements GameCanvasListener {
   Game m_game;
+  public boolean key16 = false;
   public boolean key32 = false;
   public boolean key37 = false;
   public boolean key38 = false;
   public boolean key39 = false;
   public boolean key40 = false;
+  public int mouseX = 0;
+  public int mouseY = 0;
+  public boolean mouseClicked = false;
 
   CanvasListener(Game game) {
     m_game = game;
@@ -50,6 +54,7 @@ public class CanvasListener implements GameCanvasListener {
     System.out.println("Mouse pressed: ("+e.getX()+","+e.getY()+")");
     System.out.println("   modifiers="+e.getModifiersEx());
     System.out.println("   buttons="+e.getButton());
+    mouseClicked = true;
   }
 
   @Override
@@ -57,6 +62,7 @@ public class CanvasListener implements GameCanvasListener {
     System.out.println("Mouse released: ("+e.getX()+","+e.getY()+")");
     System.out.println("   modifiers="+e.getModifiersEx());
     System.out.println("   buttons="+e.getButton());
+    mouseClicked = false;
   }
 
   @Override
@@ -85,6 +91,8 @@ public class CanvasListener implements GameCanvasListener {
     System.out.println("Mouse moved: ("+e.getX()+","+e.getY()+")");
     System.out.println("   modifiers="+e.getModifiersEx());
     System.out.println("   buttons="+e.getButton());
+    mouseX = e.getX();
+    mouseY = e.getY();
   }
 
   @Override
@@ -94,6 +102,8 @@ public class CanvasListener implements GameCanvasListener {
 
   @Override
   public void keyPressed(KeyEvent e) {
+	  if(e.getKeyCode()==16)
+		  key16 = true;
 	  if(e.getKeyCode()==32)
 		  key32 = true;
 	  if(e.getKeyCode()==37)
@@ -111,6 +121,8 @@ public class CanvasListener implements GameCanvasListener {
 
   @Override
   public void keyReleased(KeyEvent e) {
+	  if(e.getKeyCode()==16)
+		  key16 = false;
 	  if(e.getKeyCode()==32)
 		  key32 = false;
 	  if(e.getKeyCode()==37)

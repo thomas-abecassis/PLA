@@ -39,6 +39,11 @@ public class Transform {
 		rotation = angle;
 	}
 	
+	public void setPosition(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	public void translate(float x, float y) {
 		this.x+=x;
 		this.y+=y;

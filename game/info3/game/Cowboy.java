@@ -32,12 +32,14 @@ import javax.imageio.ImageIO;
 
 import info3.gameObjects.GameObject;
 import info3.gameObjects.Transform;
+import info3.managers.PaintManager;
+import info3.managers.TickManager;
 
 /**
  * A simple class that holds the images of a sprite for an animated cowbow.
  *
  */
-public class Cowboy extends GameObject implements Paintable {
+public class Cowboy extends GameObject implements Paintable, Tickable {
 	BufferedImage[] m_images;
 	int m_imageIndex;
 	long m_imageElapsed;
@@ -51,12 +53,14 @@ public class Cowboy extends GameObject implements Paintable {
 	Cowboy(int x, int y) throws IOException {
 		super(x, y, 0, 48);
 		m_images = loadSprite("resources/joueur.png", 1, 1);
+		addBoxCollider(50, 50);
+		addRigibody(10,1);
 	}
 
 	/*
 	 * Simple animation here, the cowbow
 	 */
-	public void tick(long deltaTime, CanvasListener canvasListener) {
+	public void tick(long deltaTime) {
 		rigibody.computeMovement(deltaTime);
 		
 		m_imageElapsed += deltaTime;
@@ -66,9 +70,9 @@ public class Cowboy extends GameObject implements Paintable {
 			m_imageIndex = (m_imageIndex + 1) % m_images.length;
 		}
 		
-		move(canvasListener);
+		move(Game.game.m_listener);
 		
-		if(canvasListener.key32 && bulletElapsed >50) {
+		if(Game.game.m_listener.key32 && bulletElapsed >50) {
 			bulletElapsed = 0;
 			createBullet();
 		}
@@ -83,19 +87,19 @@ public class Cowboy extends GameObject implements Paintable {
 	
 	public void move(CanvasListener canvasListener) {
 		if(canvasListener.key37) {
-			rigibody.setVelocityX(-10);
+			rigibody.setVelocityX(-200);
 			transform.setRotation((float)Math.PI *0.5F);
 		}
 		if(canvasListener.key38) {
-			rigibody.setVelocityY(-10);
+			rigibody.setVelocityY(-200);
 			transform.setRotation((float)Math.PI );
 		}
 		if(canvasListener.key39) {
-			rigibody.setVelocityX(10);
+			rigibody.setVelocityX(200);
 			transform.setRotation((float)Math.PI *1.5F);
 		}
 		if(canvasListener.key40) {
-			rigibody.setVelocityY(10);
+			rigibody.setVelocityY(200);
 			transform.setRotation(0);
 		}
 	}
@@ -117,6 +121,10 @@ public class Cowboy extends GameObject implements Paintable {
 		else {
 		    g.drawImage(img, (int)(transform.getX() - cameraPositionX), (int)(transform.getY()-cameraPositionY) ,img.getWidth(), img.getHeight(), null);
 		}
+	}
+	
+	public String sauvegardeString() {
+		return "C;"+(int)transform.getX()+";"+(int)transform.getY()+";";
 	}
 
 	public static BufferedImage[] loadSprite(String filename, int nrows, int ncols) throws IOException {
