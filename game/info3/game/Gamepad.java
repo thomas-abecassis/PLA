@@ -2,6 +2,7 @@ package info3.game;
 
 import info3.gameObjects.Vector2;
 import net.java.games.input.*;
+import sun.security.action.GetBooleanAction;
 import sun.security.jca.GetInstance.Instance;
 
 public class Gamepad implements Tickable {
@@ -12,6 +13,7 @@ public class Gamepad implements Tickable {
 	private float leftStickY = 0;
 	private float rightStickY = 0;
 	private float rightStickX = 0;
+	private float leftTrigger = -1f;
 	private float deadZone;
 	public static Gamepad instance;
 
@@ -30,6 +32,10 @@ public class Gamepad implements Tickable {
 				gamepad = controllers[i];
 			}
 		}
+	}
+	
+	public boolean getLeftTrigger() {
+		return leftTrigger > 0;
 	}
 
 	public Vector2 getLeftStickPosition() {
@@ -62,6 +68,7 @@ public class Gamepad implements Tickable {
 
 	@Override
 	public void tick(long elapsed) {
+		//System.out.println(getLeftTrigger());
 		if (!gamepad.poll()) {
 			System.out.println("perte de suivi de la manette");
 		}
@@ -73,7 +80,7 @@ public class Gamepad implements Tickable {
 		while (eq.getNextEvent(event)) {
 			component = event.getComponent();
 			float value = event.getValue();
-			System.out.println(value);
+			//System.out.println(value);
 
 			// clear temporarily stored position if analog stick is in neutral position
 
@@ -93,6 +100,9 @@ public class Gamepad implements Tickable {
 				case "ry":
 					rightStickY = value;
 					break;
+				case "rz":
+					leftTrigger = value;
+				break;
 
 				}
 			} else {

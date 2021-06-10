@@ -8,4 +8,8 @@ public class Vector2 {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public Vector2 rotate(float angle) {
+		return new Vector2((float)(Math.cos(angle)*x - Math.sin(angle)*y) ,(float)( Math.sin(angle)*x + Math.cos(angle)*y));
+	}
 }

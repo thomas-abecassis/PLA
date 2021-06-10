@@ -72,7 +72,7 @@ public class Cowboy extends GameObject implements Paintable, Tickable {
 		
 		move(Game.game.m_listener);
 		
-		if(Game.game.m_listener.key32 && bulletElapsed >50) {
+		if((Game.game.m_listener.key32 || Gamepad.instance.getLeftTrigger()) && bulletElapsed >50) {
 			bulletElapsed = 0;
 			createBullet();
 		}
@@ -106,6 +106,7 @@ public class Cowboy extends GameObject implements Paintable, Tickable {
 		rigibody.setVelocityY(Gamepad.instance.getLeftStickPosition().y * 400);
 		double angleInRadians = Math.atan2((double)Gamepad.instance.getRightStickPosition().y, (double)Gamepad.instance.getRightStickPosition().x);
 		transform.setRotation((float)angleInRadians - (float)Math.PI/2);
+		
 	}
 
 	public void paint(Graphics g, int width, int height, int cameraPositionX, int cameraPositionY) {
