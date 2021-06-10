@@ -34,10 +34,13 @@ import info3.game.sound.RandomFileInputStream;
 import info3.gameObjects.BoxCollider;
 import info3.managers.PaintManager;
 import info3.managers.TickManager;
+import net.java.games.input.*;
+
+//librairie pour la manette
 
 public class Game {
 	
-	private final static boolean EDITEUR = true;
+	private final static boolean EDITEUR = false;
 
 	public static Game game;
 	private float volume;
@@ -45,8 +48,10 @@ public class Game {
 
 	public static void main(String args[]) throws Exception {
 		try {
+			
 			System.out.println("Game starting...");
 			if(!EDITEUR) {
+
 			Level level1 = new Level("level1");
 			level1.readLevel();
 			level1.loadLevel();

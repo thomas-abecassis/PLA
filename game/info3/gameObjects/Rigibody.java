@@ -29,6 +29,11 @@ public class Rigibody {
 		yVelocity = y;
 	}
 	
+	public void setVelocity(Vector2 vect) {
+		xVelocity = vect.x;
+		yVelocity = vect.y;
+	}
+	
 	public void setVelocityX(float x) {
 		this.xVelocity=x;
 	}

@@ -102,6 +102,10 @@ public class Cowboy extends GameObject implements Paintable, Tickable {
 			rigibody.setVelocityY(200);
 			transform.setRotation(0);
 		}
+		rigibody.setVelocityX(Gamepad.instance.getLeftStickPosition().x * 400);
+		rigibody.setVelocityY(Gamepad.instance.getLeftStickPosition().y * 400);
+		double angleInRadians = Math.atan2((double)Gamepad.instance.getRightStickPosition().y, (double)Gamepad.instance.getRightStickPosition().x);
+		transform.setRotation((float)angleInRadians - (float)Math.PI/2);
 	}
 
 	public void paint(Graphics g, int width, int height, int cameraPositionX, int cameraPositionY) {

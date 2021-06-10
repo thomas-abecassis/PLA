@@ -88,6 +88,7 @@ public class Level {
 			TickManager.instance.add(gameObject);
 			PaintManager.instance.add(gameObject);
 		}
+		TickManager.instance.add(new Gamepad(0.3f));
 	}
 
 }
